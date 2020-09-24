@@ -11,22 +11,23 @@
     <br>
     <br>
     <br>
-    <form action="/pasien/add" method="POST">
+
+    <form action="/pasien/<%= data.id %>/edit" method="POST">
         <label>Nama</label><br>
         <br>
-        <input type="text" name="nama" placeholder="e.g Koko"><br>
+        <input type="text" name="nama" value="<%= data.nama %>"><br>
         <br>
         <label>Gender</label><br>
         <br>
-        <input type="radio" name="gender" value="male">
-        <label>Male</label>
-        <input type="radio" name="gender" value="female">
+        <input type="radio" name="gender" value="male" <%= data.gender == 'male' ? 'checked' : '' %>>
+        <labdata>Male</label>
+        <input type="radio" name="gender" value="female" <%= data.gender == 'female' ? 'checked' : '' %>>
         <label>Female</label>
         <br>
         <br>
         <label>Age</label><br>
         <br>
-        <input type="text" name="age" placeholder="e.g: 22"><br>
+        <input type="text" name="age" value="<%= data.age %>"><br>
         <br>
         <br>
         <button type="submit">Save</button><a href="/pasien">Cancel</a>

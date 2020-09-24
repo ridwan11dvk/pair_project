@@ -6,10 +6,45 @@
     <title>Pasien</title>
 </head>
 <body>
+    <%- include('partials/navigation') %>
     <h1>List Pasien</h1>
-    <a href="/pasien/add">Add Data Pasien</a>
+    <a href="/pasien/add">Add Data Pasien</a> <a href="/pasien/anak">Pasien Anak Anak</a> <a href="/pasien/dewasa">Pasien Dewasa</a>
     <br>
     <br>
+    <% if(dewasa){ %>
+        <table border="2">
+            <tr>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Age</th>
+            </tr>
+            <% for(let i=0; i < dewasa.length; i++){ %>
+            <tr>
+                <td><%= arr[i] %></td>
+                <td><%= dewasa[i].gender %></td>
+                <td><%= dewasa[i].age %></td>
+            </tr>
+            <% } %>
+        </table>
+        <a href="/pasien">Back</a>
+    <% } else if(anak){ %>
+        <table border="2">
+            <tr>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Age</th>
+            </tr>
+            <% for(let i=0; i < anak.length; i++){ %>
+            <tr>
+                <td><%= arr[i] %></td>
+                <td><%= anak[i].gender %></td>
+                <td><%= anak[i].age %></td>
+            </tr>
+            <% } %>
+        </table>
+        <a href="/pasien">Back</a>
+    <% } else {%>
+    
     <table border="2">
         <tr>
             <th>Name</th>
@@ -19,7 +54,7 @@
         </tr>
         <% for(let i=0; i < data.length; i++){ %>
         <tr>
-            <td><%= data[i].nama %></td>
+            <td><%= arr[i] %></td>
             <td><%= data[i].gender %></td>
             <td><%= data[i].age %></td>
             <td>
@@ -30,5 +65,7 @@
         </tr>
         <% } %>
     </table>
+    <% } %>
+    
 </body>
 </html>

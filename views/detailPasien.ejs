@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Pasien</title>
+</head>
+<body>
+    <%- include('partials/navigation') %>
+<h1><%= tamp %></h1>
+<br>
+<br>
+<h3>Add Penyakit dan Dokter</h3>
+<form action="/pasien/<%= dataPasien[0].id %>/detail" method="POST">
+    <label>Penyakit</label><br>
+    <br>
+    <select name="penyakit">
+        <option value="">--Please Select--</option>
+        <% for(i=0; i < dataPenyakit.length; i++){ %>
+            <option value="<%= dataPenyakit[i].id %>"><%= dataPenyakit[i].nama_penyakit %></option>
+       <% } %>
+    </select>
+    <br>
+    <br>
+    <label>Dokter</label><br>
+    <br>
+    <select name="dokter">
+        <option value="">--Please Select--</option>
+        <% for(let i=0; i < dataDokter.length; i++){ %>
+            <option value="<%= dataDokter[i].id %>"><%= dataDokter[i].name %></option>
+       <% } %>
+    </select>
+    <br>
+    <br>
+    <button type="submit">Save</button><a href="/pasien">Cancel</a>
+</form>
+<br>
+<br>
+<h2>List Penyakit diderita</h2>
+<table border=1>
+    <tr>
+      <th>Nama Penyakit</th>
+      <th>Jenis Penyakit</th>
+    </tr>
+    <% for(let i=0; i < dataPasien[0].Penyakits.length; i++){ %>
+        <tr>
+            <td><%= dataPasien[0].Penyakits[i].nama_penyakit %></td>
+            <td><%= dataPasien[0].Penyakits[i].jenis_penyakit %></td>
+        </tr>
+    <% } %>
+</table> 
+
+<h2>List Dokter yang menangani</h2>
+<table border=1>
+    <tr>
+      <th>Nama Dokter</th>
+      <th>Spesialis</th>
+    </tr>
+    <% if(!dataPasien[0].Dokter){ %>
+        <tr>
+            <th>unknown</th>
+            <th>unknown</th>
+          </tr>
+    <% }else{ %>
+    <% for(let i=0; i < dataPasien.length; i++){ %>
+        <tr>
+            <td><%= dataPasien[i].Dokter.name %></td>
+            <td><%= dataPasien[i].Dokter.spesialis %></td>
+        </tr>
+    <% } %>
+    <% } %>
+</table> 
+<br>
+<br>
+<a href="/pasien">Back</a>
+
+    
+</body>
+</html>
