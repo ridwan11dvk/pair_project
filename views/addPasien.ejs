@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Pasien</title>
+<body>
+    <h1>Add Pasien</h1>
+    <a href="/pasien">Back to Pasien Page</a>
+    <br>
+    <br>
+    <br>
+    <form action="/pasien/add" method="POST">
+        <label>Nama</label><br>
+        <br>
+        <input type="text" name="nama" placeholder="e.g Koko"><br>
+        <br>
+        <label>Gender</label><br>
+        <br>
+        <input type="radio" name="gender" value="male">
+        <label>Male</label>
+        <input type="radio" name="gender" value="female">
+        <label>Female</label>
+        <br>
+        <br>
+        <label>Age</label><br>
+        <br>
+        <input type="text" name="age" placeholder="e.g: 22"><br>
+        <br>
+        <br>
+        <button type="submit">Save</button><a href="/pasien">Cancel</a>
+    </form>
+</body>
+</html>

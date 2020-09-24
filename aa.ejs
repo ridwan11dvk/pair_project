@@ -1,0 +1,19 @@
+<label>Penyakit</label><br>
+        <br>
+        <select name="penyakit">
+            <option value="">--Please Select--</option>
+            <% for(let i=0; i < dataPenyakit.length; i++){ %>
+                <option value="<%= dataPenyakit[i].id %>"><%= dataPenyakit[i].nama_penyakit %></option>
+            <% } %>
+        </select>
+        <br>
+        <br>
+        <label>Dokter</label><br>
+        <br>
+        <select name="dokter">
+            <option value="">--Please Select--</option>
+            <% for(let i=0; i < dataDokter.length; i++){ %>
+                <option value="<%= dataDokter[i].id %>"><%= dataDokter[i].name %></option>
+            <% } %>
+        </select>
+        <br>

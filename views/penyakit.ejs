@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penyakit</title>
+</head>
+<body>
+    <h1>List Penyakit</h1>
+    <a href="/penyakit/add">Add Data Penyakit</a>
+    <br>
+    <br>
+    <table border="2">
+        <tr>
+            <th>Nama Penyakit</th>
+            <th>Jenis Penyakit</th>
+            <th>Options</th>
+        </tr>
+        <% for(let i=0; i < data.length; i++){ %>
+        <tr>
+            <td><%= data[i].nama_penyakit %></td>
+            <td><%= data[i].jenis_penyakit %></td>
+            <td>
+                <a href='penyakit/<%= data[i].id%>/detail'>Detail</a>
+            </td>
+        </tr>
+        <% } %>
+    </table>
+</body>
+</html>

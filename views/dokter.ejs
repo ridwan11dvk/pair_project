@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokter</title>
+</head>
+<body>
+    <h1>List Dokter</h1>
+    <a href="/dokter/add">Add Data Dokter</a>
+    <br>
+    <br>
+    <table border="2">
+        <tr>
+            <th>Name</th>
+            <th>No Telp</th>
+            <th>Jadwal Tugas</th>
+            <th>Spesialis</th>
+            <th>Options</th>
+        </tr>
+        <% for(let i=0; i < data.length; i++){ %>
+        <tr>
+            <td><%= arr[i] %></td>
+            <td><%= data[i].no_telp %></td>
+            <td><%= data[i].jadwal_tugas %></td>
+            <td><%= data[i].spesialis %></td>
+            <td>
+                <a href='dokter/<%= data[i].id%>/delete' onclick="return confirm('Anda Yakin ingin menghapus data ?');">Delete</a>
+            </td>
+        </tr>
+        <% } %>
+    </table>
+</body>
+</html>

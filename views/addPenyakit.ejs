@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Penyakit</title>
+<body>
+    <h1>Add Penyakit</h1>
+    <a href="/penyakit">Back to Penyakit Page</a>
+    <br>
+    <br>
+    <br>
+    <form action="/penyakit/add" method="POST">
+        <label>Nama Penyakit</label><br>
+        <br>
+        <input type="text" name="nama_penyakit" placeholder="e.g Malaria"><br>
+        <br>
+        <label>Category</label><br>
+        <br>
+        <select name="jenis_penyakit">
+            <option value="">--Please Select--</option>
+            <option value="Anak">Anak</option>
+            <option value="Mata">Mata</option>
+            <option value="Gigi">Gigi</option>
+            <option value="Telinga Hidung Tenggorok">Telinga Hidung Tenggorok</option>
+            <option value="Umum">Umum</option>
+        </select>
+        <br>
+        <br>
+        <button type="submit">Save</button><a href="/penyakit">Cancel</a>
+    </form>
+</body>
+</html>
