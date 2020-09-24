@@ -5,77 +5,97 @@ const op = Sequelize.Op;
 
 class CPasien{
     static listHandler(req,res){
-        let dewasa
-        let anak
-        if(req.query.dewasa){
-            dewasa = req.query.dewasa
-            dewasa = JSON.parse(dewasa)
-        }
-        else if(req.query.anak){
-            anak = req.query.anak
-            anak = JSON.parse(anak)
-        }
-     
-        Pasien.findAll()
-        .then(data=>{
-            let arr = []
-            let tamp 
-            for(let i=0; i < data.length; i++){
-                tamp = Helper.titlePasien(data[i].nama,data[i].gender)
-                arr.push(tamp)
+        if (req.session.login == true) {
+            let dewasa
+            let anak
+            if(req.query.dewasa){
+                dewasa = req.query.dewasa
+                dewasa = JSON.parse(dewasa)
             }
-            res.render('pasien',{data,arr,dewasa,anak})
-        })
-        .catch(err=>{
-            res.send(err)
-        })
+            else if(req.query.anak){
+                anak = req.query.anak
+                anak = JSON.parse(anak)
+            }
+            Pasien.findAll()
+            .then(data=>{
+                let arr = []
+                let tamp 
+                for(let i=0; i < data.length; i++){
+                    tamp = Helper.titlePasien(data[i].nama,data[i].gender)
+                    arr.push(tamp)
+                }
+                res.render('pasien',{data,arr,dewasa,anak})
+            })
+            .catch(err=>{
+                res.send(err)
+            })
+        }
+        else {
+            res.redirect('/login')
+        }
     }
 
     static addPageHandler(req,res){
-        res.render('addPasien')
+        if (req.session.login == true) {
+            res.render('addPasien')
+        }
+        else {
+            res.redirect('/login')
+        }
     }
 
     static addHandler(req,res){
-        let obj = {
-            nama: req.body.nama,
-            gender: req.body.gender,
-            age: req.body.age
+        if (req.session.login == true) {
+            let obj = {
+                nama: req.body.nama,
+                gender: req.body.gender,
+                age: req.body.age
+            }
+            Pasien.create(obj)
+            .then(data=>{
+                res.redirect(`/pasien`)
+            })
+            .catch(err=>{
+                res.send(err)
+            })
         }
-
-        Pasien.create(obj)
-        .then(data=>{
-            res.redirect(`/pasien`)
-        })
-        .catch(err=>{
-            res.send(err)
-        })
-
+        else {
+            res.redirect('/login')
+        }
     }
 
     static editPageHandler(req,res){
-        Pasien.findByPk(+req.params.id)
-        .then(data=>{
-            
-            res.render('editPasien',{data})
-        })
-    }
-
-    static editHandler(req,res){
-        let obj = {
-            nama: req.body.nama,
-            gender: req.body.gender,
-            age: req.body.age
-
+        if (req.session.login == true) {
+            Pasien.findByPk(+req.params.id)
+            .then(data=>{
+                res.render('editPasien',{data})
+            })
         }
-        Pasien.update(obj,{where:
-            {id: req.params.id}
-        })
-        .then(data=>{
-            res.redirect(`/pasien`)
-        })
-        .catch(err=>{
-            res.send(err)
-        })
+        else {
+            res.redirect('/login')
+        }
+    }
+    static editHandler(req,res){
+        if (req.session.login == true) {
+            let obj = {
+                nama: req.body.nama,
+                gender: req.body.gender,
+                age: req.body.age
+    
+            }
+            Pasien.update(obj,{where:
+                {id: req.params.id}
+            })
+            .then(data=>{
+                res.redirect(`/pasien`)
+            })
+            .catch(err=>{
+                res.send(err)
+            })
+        }
+        else {
+            res.redirect('/login')
+        }
     }
 
     static deleteHandler(req,res){
@@ -91,69 +111,87 @@ class CPasien{
     }
 
     static detailPageHandler(req,res){
-        let dataDokter 
-        let dataPenyakit
-        Dokter.findAll()
-        .then(data=>{
-            dataDokter = data
-            return Penyakit.findAll()
-        })
-        .then(data=>{
-            dataPenyakit = data
-            return Pasien.findAll({where:{id:+req.params.id},
-                include: [Dokter,Penyakit]
+        if (req.session.login == true) {
+            let dataDokter 
+            let dataPenyakit
+            Dokter.findAll()
+            .then(data=>{
+                dataDokter = data
+                return Penyakit.findAll()
             })
-        })
-        .then(dataPasien=>{
-            let tamp = Helper.titlePasien(dataPasien[0].nama,dataPasien[0].gender)
-            res.render('detailPasien',{dataDokter,dataPasien,dataPenyakit,tamp})
-        })
-        .catch(err=>{
-            res.send(err)
-        })
+            .then(data=>{
+                dataPenyakit = data
+                return Pasien.findAll({where:{id:+req.params.id},
+                    include: [Dokter,Penyakit]
+                })
+            })
+            .then(dataPasien=>{
+                let tamp = Helper.titlePasien(dataPasien[0].nama,dataPasien[0].gender)
+                res.render('detailPasien',{dataDokter,dataPasien,dataPenyakit,tamp})
+            })
+            .catch(err=>{
+                res.send(err)
+            })
+        }
+        else {
+            res.redirect('/login')
+        }
     }
     
     static detailHandler(req,res){
-        let obj = {
-            PenyakitId: req.body.penyakit,
-            PasienId: +req.params.id
+        if (req.session.login == true) {
+            let obj = {
+                PenyakitId: req.body.penyakit,
+                PasienId: +req.params.id
+            }
+    
+            PenyakitPasien.create(obj)
+            .then(data=>{
+                return Pasien.update({DokterId: req.body.dokter},{where:{
+                    id: +req.params.id
+                }})
+            })
+            .then(data=>{
+                res.redirect(`/pasien`)
+            })
+            .catch(err=>{
+                res.send(err)
+            })
         }
-
-        PenyakitPasien.create(obj)
-        .then(data=>{
-            return Pasien.update({DokterId: req.body.dokter},{where:{
-                id: +req.params.id
-            }})
-        })
-        .then(data=>{
-            res.redirect(`/pasien`)
-        })
-        .catch(err=>{
-            res.send(err)
-        })
+        else {
+            res.redirect('/login')
+        }
     }
-
+    
     static anakHandler(req,res){
-        Pasien.sortingAnakAnak()
-        .then(data=>{
-            res.redirect(`/pasien?anak=${JSON.stringify(data,null,2)}`)
-        })
-        .catch(err=>{
-            res.send(err)
-        })
-
-        
+        if (req.session.login == true) {
+            Pasien.sortingAnakAnak()
+            .then(data=>{
+                res.redirect(`/pasien?anak=${JSON.stringify(data,null,2)}`)
+            })
+            .catch(err=>{
+                res.send(err)
+            })
+        }
+        else {
+            res.redirect('/login')
+        }
     }
 
     static dewasaHandler(req,res){
-        Pasien.sortingDewasa()
-        .then(data=>{
-            //console.log(JSON.stringify(data,null,2))
-            res.redirect(`/pasien?dewasa=${JSON.stringify(data,null,2)}`)
-        })
-        .catch(err=>{
-            res.send(err)
-        })
+        if (req.session.login == true) {
+            Pasien.sortingDewasa()
+            .then(data=>{
+                //console.log(JSON.stringify(data,null,2))
+                res.redirect(`/pasien?dewasa=${JSON.stringify(data,null,2)}`)
+            })
+            .catch(err=>{
+                res.send(err)
+            })
+        }
+        else {
+            res.redirect('/login')
+        }
     }
 }
 

@@ -2,15 +2,33 @@ const router = require('express').Router()
 const Dokter = require('../routes/dokterRoutes')
 const Penyakit = require('../routes/penyakitRoutes')
 const Pasien = require('../routes/pasienRoutes')
+const Login = require('../routes/loginRoutes.js')
 const qr = require('qrcode')
+const session = require('express-session')
+
+router.use(session({
+    secret:"puskemas",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 150000
+    }
+}))
 
 router.get('/', (req,res)=>{
-    res.render('home')
+  if (req.session.login == true) {
+    let nama = req.session.nama
+    res.render('home',{nama})
+}
+else {
+    res.redirect('/login')
+}
 })
 
 router.use('/dokter', Dokter)
 router.use('/penyakit', Penyakit)
 router.use('/pasien',Pasien)
+router.use('/login', Login)
 
 router.get('/test',(req,res)=>{
     res.render('test')

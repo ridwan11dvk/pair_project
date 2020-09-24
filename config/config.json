@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "postgres",
-    "password": 11223344,
-    "database": "puskemasApp",
+    "password": "enricoanto",
+    "database": "puskemas-App",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

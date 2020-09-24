@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form action="/login" method="POST">
+        <label>username</label><br>
+        <input name="username" type="text"><br>
+        <label>PIN</label><br>
+        <input name="pin" type="password"><br>
+        <button type="submit">submit</button>
+    </form>
+    <%if (error===true) {%>
+        <a><%='login failed!'%></a>
+    <%}%>
+</body>
+</html>
