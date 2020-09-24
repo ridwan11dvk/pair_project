@@ -66,6 +66,13 @@
         <% } %>
     </table>
     <% } %>
-    
+    <br>
+    <br>
+    <br>
+    <% if(alert){ %>
+        <h3>Wah Ada Pesan dari dokter nih, yuk kita scan apa isinya</h3>
+        <%= JSON.stringify(alert) %>
+       <img src="<%= alert %>">
+    <% } %>
 </body>
 </html>

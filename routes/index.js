@@ -21,7 +21,7 @@ router.post('/test',(req,res)=>{
     if(url.length === 0) res.send('Empty')
     qr.toDataURL('I am a pony!')
     .then(url => {
-      console.log(url)
+      res.render('test2',{url})
     })
     .catch(err => {
       console.error(err)

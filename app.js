@@ -8,7 +8,7 @@ const router = require('./routes/index.js')
 app.set('view engine', 'ejs')
 app.use(bp.urlencoded({extended:false}))
 app.use(bp.json())
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({extended:false}))
 
 app.use('/', router)
 

@@ -2,11 +2,13 @@ const {Pasien,Penyakit, Dokter, PenyakitPasien} = require('../models/index.js')
 const Helper = require('../helper/helper')
 const Sequelize = require('sequelize');
 const op = Sequelize.Op;
+const qr = require('qrcode')
 
 class CPasien{
     static listHandler(req,res){
         let dewasa
         let anak
+        let alert
         if(req.query.dewasa){
             dewasa = req.query.dewasa
             dewasa = JSON.parse(dewasa)
@@ -15,6 +17,12 @@ class CPasien{
             anak = req.query.anak
             anak = JSON.parse(anak)
         }
+        else if(req.query.alert){
+            alert = req.query.alert
+            // const fs = require('fs')
+            // fs.writeFileSync('titip2.md', alert, 'utf-8')
+        }
+        console.log(alert)
      
         Pasien.findAll()
         .then(data=>{
@@ -24,7 +32,7 @@ class CPasien{
                 tamp = Helper.titlePasien(data[i].nama,data[i].gender)
                 arr.push(tamp)
             }
-            res.render('pasien',{data,arr,dewasa,anak})
+            res.render('pasien',{data,arr,dewasa,anak,alert})
         })
         .catch(err=>{
             res.send(err)
@@ -126,7 +134,13 @@ class CPasien{
             }})
         })
         .then(data=>{
-            res.redirect(`/pasien`)
+           return qr.toDataURL('Olahraga yg cukup, makan bergizi, hindari gorengan !')
+        })
+        .then(url=>{
+            //console.log('masuk - -')
+            //res.render('test2', { url })
+            //req.session.qr = url
+            res.redirect(`/pasien?alert=${url}`)
         })
         .catch(err=>{
             res.send(err)
